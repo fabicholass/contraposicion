@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Consecuencias.</title>
+    <title>Área de Escritura</title>
     <style>
         body {
             margin: 0;
@@ -15,6 +15,13 @@
             background-color: black;
             color: white;
             font-family: Arial, sans-serif;
+            flex-direction: column;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            font-size: 20px;
+            text-align: top;
         }
 
         textarea {
@@ -31,6 +38,37 @@
     </style>
 </head>
 <body>
-    <textarea placeholder=""></textarea>
+    <h1>...Recuerdas quién te metió en todo esto?</h1>
+    <textarea id="textArea" placeholder="Escribe aquí..."></textarea>
+
+    <script>
+        const textarea = document.getElementById('textArea');
+        const h1 = document.querySelector('h1');
+
+        textarea.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault(); // Evitar que se agregue un salto de línea
+                if (textarea.value.trim() === 'donalgo') {
+                    // Reemplazar el título y el área de texto por el enlace
+                    h1.textContent = ''; // Limpiar el texto del h1
+                    const link = document.createElement('a');
+                    link.href = 'https://www.ejemplo.com'; // URL de destino
+                    link.textContent = '...';
+                    link.style.color = 'blue';
+                    link.style.fontSize = '20px';
+                    link.style.textDecoration = 'none';
+
+                    // Ocultar el área de texto y agregar el enlace al body
+                    textarea.style.display = 'none';
+                    document.body.appendChild(link);
+
+                    // Redirigir al hacer clic en el enlace
+                    link.addEventListener('click', function() {
+                        window.location.href = link.href;
+                    });
+                }
+            }
+        });
+    </script>
 </body>
 </html>
