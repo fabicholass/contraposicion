@@ -47,22 +47,19 @@
 
         textarea.addEventListener('keydown', function(event) {
             if (event.key === 'Enter') {
-                event.preventDefault(); // Evitar que se agregue un salto de línea
+                event.preventDefault();
                 if (textarea.value.trim() === 'donalgo') {
-                    // Reemplazar el título y el área de texto por el enlace
-                    h1.textContent = ''; // Limpiar el texto del h1
+                    h1.textContent = '';
                     const link = document.createElement('a');
-                    link.href = 'https://www.ejemplo.com'; // URL de destino
+                    link.href = 'https://www.ejemplo.com';
                     link.textContent = '...';
                     link.style.color = 'blue';
                     link.style.fontSize = '20px';
                     link.style.textDecoration = 'none';
 
-                    // Ocultar el área de texto y agregar el enlace al body
                     textarea.style.display = 'none';
                     document.body.appendChild(link);
 
-                    // Redirigir al hacer clic en el enlace
                     link.addEventListener('click', function() {
                         window.location.href = link.href;
                     });
