@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Find Luigi</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f4f4f4;
+    }
+    h1 {
+      margin-top: 20px;
+    }
+    .game-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    .character {
+      margin: 10px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .character img {
+      width: 100px;
+      height: 100px;
+      border: 2px solid #333;
+      border-radius: 10px;
+    }
+    .character:hover {
+      transform: scale(1.1);
+    }
+    #message {
+      margin-top: 20px;
+      font-size: 1.5em;
+      color: #28a745;
+    }
+  </style>
+</head>
+<body>
+  <h1>Encuentra a Luigi</h1>
+  <p>Haz clic en Luigi para ganar el juego.</p>
+  <div class="game-container" id="game-container">
+    <!-- Imágenes de personajes -->
+  </div>
+  <div id="message"></div>
+
+  <script>
+    const characters = [
+      { name: "Mario", img: "https://via.placeholder.com/100/FF0000/FFFFFF?text=Mario" },
+      { name: "Peach", img: "https://via.placeholder.com/100/FFC0CB/FFFFFF?text=Peach" },
+      { name: "Toad", img: "https://via.placeholder.com/100/FFFF00/FFFFFF?text=Toad" },
+      { name: "Bowser", img: "https://via.placeholder.com/100/00FF00/FFFFFF?text=Bowser" },
+      { name: "Luigi", img: "https://via.placeholder.com/100/00FF00/FFFFFF?text=Luigi" }, // Luigi
+      { name: "Yoshi", img: "https://via.placeholder.com/100/00FF00/FFFFFF?text=Yoshi" }
+    ];
+
+    const gameContainer = document.getElementById("game-container");
+    const message = document.getElementById("message");
+
+    function shuffle(array) {
+      return array.sort(() => Math.random() - 0.5);
+    }
+
+    function loadCharacters() {
+      const shuffledCharacters = shuffle(characters);
+      shuffledCharacters.forEach(character => {
+        const div = document.createElement("div");
+        div.classList.add("character");
+        div.innerHTML = `<img src="${character.img}" alt="${character.name}">`;
+        div.addEventListener("click", () => checkCharacter(character.name));
+        gameContainer.appendChild(div);
+      });
+    }
+
+    function checkCharacter(name) {
+      if (name === "Luigi") {
+        message.textContent = "¡Felicidades! Encontraste a Luigi 🎉";
+      } else {
+        message.textContent = "¡Intenta de nuevo!";
+      }
+    }
+
+    loadCharacters();
+  </script>
+</body>
+</html>
