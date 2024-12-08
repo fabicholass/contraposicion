@@ -1,90 +1,158 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Find Luigi</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      background-color: #f4f4f4;
-    }
-    h1 {
-      margin-top: 20px;
-    }
-    .game-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin-top: 20px;
-    }
-    .character {
-      margin: 10px;
-      cursor: pointer;
-      transition: transform 0.2s;
-    }
-    .character img {
-      width: 100px;
-      height: 100px;
-      border: 2px solid #333;
-      border-radius: 10px;
-    }
-    .character:hover {
-      transform: scale(1.1);
-    }
-    #message {
-      margin-top: 20px;
-      font-size: 1.5em;
-      color: #28a745;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encontrar a Luigi</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #000;
+            position: relative;
+            font-family: Arial, sans-serif;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .character {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+        }
+
+        #start-button {
+            width: 100px;
+            height: 50px;
+            background-color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-  <h1>Encuentra a Luigi</h1>
-  <p>Haz clic en Luigi para ganar el juego.</p>
-  <div class="game-container" id="game-container">
-    <!-- Imágenes de personajes -->
-  </div>
-  <div id="message"></div>
 
-  <script>
-    const characters = [
-      { name: "Mario", img: "https://via.placeholder.com/100/FF0000/FFFFFF?text=Mario" },
-      { name: "Peach", img: "https://via.placeholder.com/100/FFC0CB/FFFFFF?text=Peach" },
-      { name: "Toad", img: "https://via.placeholder.com/100/FFFF00/FFFFFF?text=Toad" },
-      { name: "Bowser", img: "https://via.placeholder.com/100/00FF00/FFFFFF?text=Bowser" },
-      { name: "Luigi", img: "https://via.placeholder.com/100/00FF00/FFFFFF?text=Luigi" }, // Luigi
-      { name: "Yoshi", img: "https://via.placeholder.com/100/00FF00/FFFFFF?text=Yoshi" }
-    ];
+    <button id="start-button"></button>
+    <audio id="background-audio" src="/media/find.wav" loop></audio>
 
-    const gameContainer = document.getElementById("game-container");
-    const message = document.getElementById("message");
+    <script>
+        const charactersContainer = document.body;
+        const startButton = document.getElementById('start-button');
+        const backgroundAudio = document.getElementById('background-audio');
+        const characterImages = [
+            'media/MARIO_WANTED.png',
+            'media/WARIO_WANTED.png',
+            'media/YOSHI_WANTED.png'
+        ];
 
-    function shuffle(array) {
-      return array.sort(() => Math.random() - 0.5);
-    }
+        let characters = []; // Almacena los personajes para manipular su velocidad
+        let speedMultiplier = 1; // Multiplier de velocidad para los personajes
+        let gameStarted = false;
 
-    function loadCharacters() {
-      const shuffledCharacters = shuffle(characters);
-      shuffledCharacters.forEach(character => {
-        const div = document.createElement("div");
-        div.classList.add("character");
-        div.innerHTML = `<img src="${character.img}" alt="${character.name}">`;
-        div.addEventListener("click", () => checkCharacter(character.name));
-        gameContainer.appendChild(div);
-      });
-    }
+        // Función para crear un personaje con movimiento
+        function createCharacter(imageSrc, isLuigi = false) {
+            const character = document.createElement('div');
+            character.classList.add('character');
 
-    function checkCharacter(name) {
-      if (name === "Luigi") {
-        message.textContent = "¡Felicidades! Encontraste a Luigi 🎉";
-      } else {
-        message.textContent = "¡Intenta de nuevo!";
-      }
-    }
+            const img = document.createElement('img');
+            img.src = imageSrc;
+            img.alt = "Character";
 
-    loadCharacters();
-  </script>
+            character.appendChild(img);
+            charactersContainer.appendChild(character);
+
+            // Posición inicial aleatoria
+            let x = Math.random() * (window.innerWidth - 50);
+            let y = Math.random() * (window.innerHeight - 50);
+
+            // Dirección inicial aleatoria con velocidad normal
+            let dx = (Math.random() > 0.5 ? 1 : -1) * (Math.random() * 0.5 + 0.2);
+            let dy = (Math.random() > 0.5 ? 1 : -1) * (Math.random() * 0.5 + 0.2);
+
+            function move() {
+                x += dx * speedMultiplier;  // Modificar velocidad con el multiplicador
+                y += dy * speedMultiplier;
+
+                // Rebotar en los bordes de la pantalla
+                if (x <= 0 || x + 50 >= window.innerWidth) {
+                    dx *= -1;
+                }
+                if (y <= 0 || y + 50 >= window.innerHeight) {
+                    dy *= -1;
+                }
+
+                character.style.left = `${x}px`;
+                character.style.top = `${y}px`;
+
+                requestAnimationFrame(move);
+            }
+
+            move();
+
+            // Si es Luigi, agregar el evento de clic para redirigir
+            if (isLuigi) {
+                character.addEventListener('click', () => {
+                    window.location.href = 'https://youtu.be/dM-mfOuv5Ac';
+                });
+            }
+
+            // Guardar el personaje en la lista
+            characters.push({ element: character, dx, dy });
+        }
+
+        // Función para iniciar el juego
+        function startGame() {
+            if (gameStarted) return; // Evitar que inicie más de una vez
+            gameStarted = true;
+
+            startButton.style.display = 'none';
+            fadeInAudio();
+
+            // Crear a Luigi
+            createCharacter('media/LUIGI_WANTED.png', true);
+
+            // Crear personajes adicionales
+            function generateCharacters(quantity) {
+                for (let i = 0; i < quantity; i++) {
+                    const randomImage = characterImages[Math.floor(Math.random() * characterImages.length)];
+                    createCharacter(randomImage);
+                }
+            }
+
+            // Generar 10 personajes adicionales
+            generateCharacters(500);
+
+            // Iniciar el ciclo de velocidad
+            toggleSpeed();
+        }
+
+        // Función para hacer un fade in del audio en 3 segundos
+        function fadeInAudio() {
+            backgroundAudio.volume = 0;
+            backgroundAudio.play();
+            let volume = 0;
+            const fadeInInterval = setInterval(() => {
+                if (volume < 1) {
+                    volume += 0.01;
+                    backgroundAudio.volume = volume;
+                } else {
+                    clearInterval(fadeInInterval);
+                }
+            }, 30); // Ajuste para lograr un fade in de 3 segundos (0.01 * 30ms = 3 segundos)
+        }
+
+        // Función para alternar la velocidad cada 16 segundos
+        function toggleSpeed() {
+            setInterval(() => {
+                speedMultiplier = (speedMultiplier === 1) ? 10 : 1;
+            }, 16000); // Cada 16 segundos
+        }
+
+        startButton.addEventListener('click', startGame);
+    </script>
 </body>
 </html>
