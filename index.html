@@ -111,9 +111,20 @@
     <hr class="aboveMidAd">
     <div class="middlead center">
         <div><a href="">
-            <img alt="" src="/media/anuncio1.png">
+            <img id="anuncio" alt="" src="">
         </a></div>
     </div>
+
+    <script>
+      function getRandom(min, max) {
+        var ret = Math.round( (Math.random()) * (max - min)) + min;
+        console.log(ret);
+        return ret;
+      }
+
+      const totalAnuncios = 2;
+      document.getElementById('anuncio').setAttribute('src', 'media/anuncio'+getRandom(1, totalAnuncios)+'.png');
+    </script>
 
     <hr>
     <div id="ctrl-top" class="desktop">
