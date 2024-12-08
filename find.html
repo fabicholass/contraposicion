@@ -50,11 +50,10 @@
             'media/YOSHI_WANTED.png'
         ];
 
-        let characters = []; // Almacena los personajes para manipular su velocidad
-        let speedMultiplier = 1; // Multiplier de velocidad para los personajes
+        let characters = [];
+        let speedMultiplier = 1;
         let gameStarted = false;
 
-        // Función para crear un personaje con movimiento
         function createCharacter(imageSrc, isLuigi = false) {
             const character = document.createElement('div');
             character.classList.add('character');
@@ -66,19 +65,16 @@
             character.appendChild(img);
             charactersContainer.appendChild(character);
 
-            // Posición inicial aleatoria
             let x = Math.random() * (window.innerWidth - 50);
             let y = Math.random() * (window.innerHeight - 50);
 
-            // Dirección inicial aleatoria con velocidad normal
             let dx = (Math.random() > 0.5 ? 1 : -1) * (Math.random() * 0.5 + 0.2);
             let dy = (Math.random() > 0.5 ? 1 : -1) * (Math.random() * 0.5 + 0.2);
 
             function move() {
-                x += dx * speedMultiplier;  // Modificar velocidad con el multiplicador
+                x += dx * speedMultiplier;
                 y += dy * speedMultiplier;
 
-                // Rebotar en los bordes de la pantalla
                 if (x <= 0 || x + 50 >= window.innerWidth) {
                     dx *= -1;
                 }
@@ -94,29 +90,24 @@
 
             move();
 
-            // Si es Luigi, agregar el evento de clic para redirigir
             if (isLuigi) {
                 character.addEventListener('click', () => {
                     window.location.href = 'https://youtu.be/dM-mfOuv5Ac';
                 });
             }
 
-            // Guardar el personaje en la lista
             characters.push({ element: character, dx, dy });
         }
 
-        // Función para iniciar el juego
         function startGame() {
-            if (gameStarted) return; // Evitar que inicie más de una vez
+            if (gameStarted) return;
             gameStarted = true;
 
             startButton.style.display = 'none';
             fadeInAudio();
 
-            // Crear a Luigi
             createCharacter('media/LUIGI_WANTED.png', true);
 
-            // Crear personajes adicionales
             function generateCharacters(quantity) {
                 for (let i = 0; i < quantity; i++) {
                     const randomImage = characterImages[Math.floor(Math.random() * characterImages.length)];
@@ -124,14 +115,11 @@
                 }
             }
 
-            // Generar 10 personajes adicionales
             generateCharacters(500);
 
-            // Iniciar el ciclo de velocidad
             toggleSpeed();
         }
 
-        // Función para hacer un fade in del audio en 3 segundos
         function fadeInAudio() {
             backgroundAudio.volume = 0;
             backgroundAudio.play();
@@ -143,14 +131,13 @@
                 } else {
                     clearInterval(fadeInInterval);
                 }
-            }, 30); // Ajuste para lograr un fade in de 3 segundos (0.01 * 30ms = 3 segundos)
+            }, 30);
         }
 
-        // Función para alternar la velocidad cada 16 segundos
         function toggleSpeed() {
             setInterval(() => {
                 speedMultiplier = (speedMultiplier === 1) ? 10 : 1;
-            }, 16000); // Cada 16 segundos
+            }, 16000);
         }
 
         startButton.addEventListener('click', startGame);
