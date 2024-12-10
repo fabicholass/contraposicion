@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title></title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #000;
+            overflow: hidden;
+        }
+
+        img {
+            max-width: 100%;
+            max-height: 100%;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        #flipText {
+            position: absolute;
+            right: 10%;
+            color: white;
+            font-size: 2rem;
+            opacity: 0;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .clicked {
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <img id="mainImage" src="/media/uno.png" alt="Imagen central">
+    <audio id="backgroundMusic" src="/media/letter.wav" loop></audio>
+    <div id="flipText">FLIP OVER?</div>
+
+    <script>
+        const imageElement = document.getElementById('mainImage');
+        const backgroundMusic = document.getElementById('backgroundMusic');
+        const flipText = document.getElementById('flipText');
+        const imageSequence = [
+            '/media/dos.png',
+            '/media/tres.png',
+            '/media/cuatro.png',
+            '/media/cara1.png'
+        ];
+        let currentImageIndex = 0;
+        let isZoomed = false;
+
+        imageElement.addEventListener('click', () => {
+            // Cambiar a la siguiente imagen en la secuencia
+            if (currentImageIndex < imageSequence.length) {
+                imageElement.src = imageSequence[currentImageIndex];
+                currentImageIndex++;
+
+                // Reproducir música y cambiar título cuando se llega a cara1.png
+                if (imageSequence[currentImageIndex - 1].includes('cara1.png')) {
+                    backgroundMusic.play();
+                    document.title = "...A LETTER";
+
+                    // Mostrar "FLIP OVER?" después de 5 segundos con efecto fade-in
+                    setTimeout(() => {
+                        flipText.style.opacity = 1;
+                    }, 5000);
+                }
+            }
+
+            // Alternar el zoom solo cuando se está en la imagen 'cara1.png'
+            if (imageElement.src.includes('cara1.png')) {
+                if (!isZoomed) {
+                    imageElement.style.transform = 'scale(2)';
+                    imageElement.style.cursor = 'zoom-out';
+                    isZoomed = true;
+                } else {
+                    imageElement.style.transform = 'scale(1)';
+                    imageElement.style.cursor = 'zoom-in';
+                    isZoomed = false;
+                }
+            }
+        });
+
+        // Cuando se hace clic en "FLIP OVER?", alternar entre "cara1.png" y "cara2.png"
+        flipText.addEventListener('click', () => {
+            flipText.classList.add('clicked');
+
+            // Si la imagen es 'cara1.png', cambia a 'cara2.png', y viceversa
+            if (imageElement.src.includes('cara1.png')) {
+                imageElement.src = '/media/cara2.png';
+            } else if (imageElement.src.includes('cara2.png')) {
+                imageElement.src = '/media/cara1.png';
+            }
+        });
+
+        // Movimiento aleatorio del texto "FLIP OVER?"
+        setInterval(() => {
+            if (flipText.style.opacity === '1') { // Mover solo si el texto es visible
+                const randomX = (Math.random() - 0.5) * 6; // Rango de movimiento en X de -3px a +3px
+                const randomY = (Math.random() - 0.5) * 6; // Rango de movimiento en Y de -3px a +3px
+
+                flipText.style.transform = `translate(${randomX}px, ${randomY}px)`;
+            }
+        }, 200); // Cambia la posición cada 500ms
+    </script>
+</body>
+</html>
