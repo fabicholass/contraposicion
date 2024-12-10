@@ -36,17 +36,53 @@
         .clicked {
             color: green;
         }
+
+        /* Estilo para la ventana de confirmación */
+        #flattenWindow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            display: none;
+            color: white;
+            text-align: center;
+        }
+
+        #flattenWindow button {
+            margin: 10px;
+            padding: 10px;
+            font-size: 1rem;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+        }
+
+        #flattenWindow button:hover {
+            background-color: #333;
+        }
     </style>
 </head>
 <body>
     <img id="mainImage" src="/media/uno.png" alt="Imagen central">
     <audio id="backgroundMusic" src="/media/letter.wav" loop></audio>
-    <div id="flipText">FLIP OVER?</div>
+    <div id="flipText">TURN OVER?</div>
+
+    <div id="flattenWindow">
+        <h2>FLATTEN?</h2>
+        <button id="btnYes">Y</button>
+        <button id="btnNo">N</button>
+    </div>
 
     <script>
         const imageElement = document.getElementById('mainImage');
         const backgroundMusic = document.getElementById('backgroundMusic');
         const flipText = document.getElementById('flipText');
+        const flattenWindow = document.getElementById('flattenWindow');
+        const btnYes = document.getElementById('btnYes');
+        const btnNo = document.getElementById('btnNo');
         const imageSequence = [
             '/media/dos.png',
             '/media/tres.png',
@@ -56,25 +92,25 @@
         let currentImageIndex = 0;
         let isZoomed = false;
 
+        // Mostrar ventana FLATTEN cuando se llega a "cara1.png"
         imageElement.addEventListener('click', () => {
-            // Cambiar a la siguiente imagen en la secuencia
             if (currentImageIndex < imageSequence.length) {
                 imageElement.src = imageSequence[currentImageIndex];
                 currentImageIndex++;
 
-                // Reproducir música y cambiar título cuando se llega a cara1.png
                 if (imageSequence[currentImageIndex - 1].includes('cara1.png')) {
                     backgroundMusic.play();
                     document.title = "...A LETTER";
 
-                    // Mostrar "FLIP OVER?" después de 5 segundos con efecto fade-in
                     setTimeout(() => {
                         flipText.style.opacity = 1;
                     }, 5000);
+                    
+                    // Mostrar ventana de confirmación FLATTEN
+                    flattenWindow.style.display = 'block';
                 }
             }
 
-            // Alternar el zoom solo cuando se está en la imagen 'cara1.png'
             if (imageElement.src.includes('cara1.png')) {
                 if (!isZoomed) {
                     imageElement.style.transform = 'scale(2)';
@@ -88,11 +124,35 @@
             }
         });
 
-        // Cuando se hace clic en "FLIP OVER?", alternar entre "cara1.png" y "cara2.png"
+        // Acción cuando se presiona "Y"
+        btnYes.addEventListener('click', () => {
+            flattenWindow.style.display = 'none'; // Cerrar ventana
+
+            // Desaparecer imagen por 1.2 segundos y luego reemplazarla
+            imageElement.style.opacity = '0';
+            setTimeout(() => {
+                imageElement.src = '/media/cara1LISA.png';
+                imageElement.style.opacity = '1';
+            }, 1200);
+
+            // Cambiar funcionalidad del botón TURNOVER
+            flipText.addEventListener('click', () => {
+                if (imageElement.src.includes('cara1LISA.png')) {
+                    imageElement.src = '/media/cara2LISA.png';
+                } else if (imageElement.src.includes('cara2LISA.png')) {
+                    imageElement.src = '/media/cara1LISA.png';
+                }
+            });
+        });
+
+        // Acción cuando se presiona "N"
+        btnNo.addEventListener('click', () => {
+            flattenWindow.style.display = 'none'; // Cerrar ventana sin hacer nada
+        });
+
+        // Funcionalidad del botón TURNOVER
         flipText.addEventListener('click', () => {
             flipText.classList.add('clicked');
-
-            // Si la imagen es 'cara1.png', cambia a 'cara2.png', y viceversa
             if (imageElement.src.includes('cara1.png')) {
                 imageElement.src = '/media/cara2.png';
             } else if (imageElement.src.includes('cara2.png')) {
@@ -100,15 +160,14 @@
             }
         });
 
-        // Movimiento aleatorio del texto "FLIP OVER?"
         setInterval(() => {
-            if (flipText.style.opacity === '1') { // Mover solo si el texto es visible
-                const randomX = (Math.random() - 0.5) * 6; // Rango de movimiento en X de -3px a +3px
-                const randomY = (Math.random() - 0.5) * 6; // Rango de movimiento en Y de -3px a +3px
+            if (flipText.style.opacity === '1') { 
+                const randomX = (Math.random() - 0.5) * 6; 
+                const randomY = (Math.random() - 0.5) * 6; 
 
                 flipText.style.transform = `translate(${randomX}px, ${randomY}px)`;
             }
-        }, 200); // Cambia la posición cada 500ms
+        }, 200);
     </script>
 </body>
 </html>
