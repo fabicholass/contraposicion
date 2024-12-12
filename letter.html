@@ -82,6 +82,30 @@
 }
 
     </style>
+
+<script>
+    function preloadImages(images) {
+        images.forEach((imageSrc) => {
+            const img = new Image();
+            img.src = imageSrc;
+        });
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        preloadImages([
+            "/media/uno.png",
+            "/media/dos.png",
+            "/media/tres.png",
+            "/media/cuatro.png",
+            "/media/cara1.png",
+            "/media/cara1LISA.png",
+            "/media/cara2LISA.png",
+            "/media/cara2.png"
+        ]);
+    });
+</script>
+
+
 </head>
 <body>
     <img id="mainImage" src="/media/uno.png" alt="Imagen central">
