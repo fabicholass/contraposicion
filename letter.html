@@ -37,7 +37,6 @@
             color: green;
         }
 
-        /* Estilo para la ventana de confirmación */
         #flattenWindow {
             position: absolute;
             top: 50%;
@@ -63,6 +62,25 @@
         #flattenWindow button:hover {
             background-color: #333;
         }
+
+        #redirectText {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: white;
+    font-size: 1.2rem;
+    font-family: 'blancnote-sans', sans-serif;
+}
+
+#redirectText a {
+    text-decoration: none;
+    color: inherit;
+}
+
+#redirectText a:hover {
+    text-decoration: underline;
+}
+
     </style>
 </head>
 <body>
@@ -75,6 +93,10 @@
         <button id="btnYes">Y</button>
         <button id="btnNo">N</button>
     </div>
+
+    <div id="redirectText">
+        <a href="https://contraposicion.xyz/past" target="_blank">Just as it ever should have been.</a>
+    </div>    
 
     <script>
         const imageElement = document.getElementById('mainImage');
@@ -92,7 +114,6 @@
         let currentImageIndex = 0;
         let isZoomed = false;
 
-        // Mostrar ventana FLATTEN cuando se llega a "cara1.png"
         imageElement.addEventListener('click', () => {
             if (currentImageIndex < imageSequence.length) {
                 imageElement.src = imageSequence[currentImageIndex];
@@ -106,7 +127,6 @@
                         flipText.style.opacity = 1;
                     }, 5000);
                     
-                    // Mostrar ventana de confirmación FLATTEN
                     flattenWindow.style.display = 'block';
                 }
             }
@@ -124,18 +144,15 @@
             }
         });
 
-        // Acción cuando se presiona "Y"
         btnYes.addEventListener('click', () => {
-            flattenWindow.style.display = 'none'; // Cerrar ventana
+            flattenWindow.style.display = 'none';
 
-            // Desaparecer imagen por 1.2 segundos y luego reemplazarla
             imageElement.style.opacity = '0';
             setTimeout(() => {
                 imageElement.src = '/media/cara1LISA.png';
                 imageElement.style.opacity = '1';
             }, 1200);
 
-            // Cambiar funcionalidad del botón TURNOVER
             flipText.addEventListener('click', () => {
                 if (imageElement.src.includes('cara1LISA.png')) {
                     imageElement.src = '/media/cara2LISA.png';
@@ -145,12 +162,10 @@
             });
         });
 
-        // Acción cuando se presiona "N"
         btnNo.addEventListener('click', () => {
-            flattenWindow.style.display = 'none'; // Cerrar ventana sin hacer nada
+            flattenWindow.style.display = 'none';
         });
 
-        // Funcionalidad del botón TURNOVER
         flipText.addEventListener('click', () => {
             flipText.classList.add('clicked');
             if (imageElement.src.includes('cara1.png')) {
