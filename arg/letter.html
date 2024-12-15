@@ -93,14 +93,14 @@
 
     document.addEventListener("DOMContentLoaded", () => {
         preloadImages([
-            "/media/uno.png",
-            "/media/dos.png",
-            "/media/tres.png",
-            "/media/cuatro.png",
-            "/media/cara1.png",
-            "/media/cara1LISA.png",
-            "/media/cara2LISA.png",
-            "/media/cara2.png"
+            "arg/media/uno.png",
+            "arg/media/dos.png",
+            "arg/media/tres.png",
+            "arg/media/cuatro.png",
+            "arg/media/cara1.png",
+            "arg/media/cara1LISA.png",
+            "arg/media/cara2LISA.png",
+            "arg/media/cara2.png"
         ]);
     });
 </script>
@@ -108,8 +108,8 @@
 
 </head>
 <body>
-    <img id="mainImage" src="/media/uno.png" alt="Imagen central">
-    <audio id="backgroundMusic" src="/media/letter.wav" loop></audio>
+    <img id="mainImage" src="arg/media/uno.png" alt="Imagen central">
+    <audio id="backgroundMusic" src="arg/media/letter.wav" loop></audio>
     <div id="flipText">TURN OVER?</div>
 
     <div id="flattenWindow">
@@ -130,10 +130,10 @@
         const btnYes = document.getElementById('btnYes');
         const btnNo = document.getElementById('btnNo');
         const imageSequence = [
-            '/media/dos.png',
-            '/media/tres.png',
-            '/media/cuatro.png',
-            '/media/cara1.png'
+            'arg/media/dos.png',
+            'arg/media/tres.png',
+            'arg/media/cuatro.png',
+            'arg/media/cara1.png'
         ];
         let currentImageIndex = 0;
         let isZoomed = false;
@@ -173,7 +173,7 @@
 
             imageElement.style.opacity = '0';
             setTimeout(() => {
-                imageElement.src = '/media/cara1LISA.png';
+                imageElement.src = 'arg/media/cara1LISA.png';
                 imageElement.style.opacity = '1';
             }, 1200);
 
@@ -193,9 +193,9 @@
         flipText.addEventListener('click', () => {
             flipText.classList.add('clicked');
             if (imageElement.src.includes('cara1.png')) {
-                imageElement.src = '/media/cara2.png';
+                imageElement.src = 'arg/media/cara2.png';
             } else if (imageElement.src.includes('cara2.png')) {
-                imageElement.src = '/media/cara1.png';
+                imageElement.src = 'arg/media/cara1.png';
             }
         });
 
