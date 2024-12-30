@@ -1,0 +1,61 @@
+name: dominio y subdominios
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Deploy Main Site (contraposicion.xyz)
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./main
+
+      - name: Deploy Subdomain donalgo.contraposicion.xyz
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./donalgo
+          cname: donalgo.contraposicion.xyz
+
+      - name: Deploy Subdomain fabicholas.contraposicion.xyz
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./fabicholas
+          cname: fabicholas.contraposicion.xyz
+
+      - name: Deploy Subdomain thesnas.contraposicion.xyz
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./thesnas
+          cname: thesnas.contraposicion.xyz
+
+      - name: Deploy Subdomain pall.contraposicion.xyz
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./pall
+          cname: pall.contraposicion.xyz
+
+      - name: Deploy Subdomain lux.contraposicion.xyz
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./lux
+          cname: lux.contraposicion.xyz
+
+      - name: Deploy Subdomain elfb34.contraposicion.xyz
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./elfb34
+          cname: elfb34.contraposicion.xyz
