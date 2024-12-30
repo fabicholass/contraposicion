@@ -1,5 +1,4 @@
-name: githubpages
-
+name: COMUNICACION
 on:
   push:
     branches:
@@ -18,15 +17,26 @@ jobs:
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
 
-      - name: Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages with subdomains
         env:
           PERSONAL_ACCESS_TOKEN: ${{ secrets.ACTIONS_DEPLOY_KEY }}
         run: |
           git remote set-url origin https://x-access-token:${PERSONAL_ACCESS_TOKEN}@github.com/fabicholass/contraposicion.git
           git checkout -b gh-pages || git checkout gh-pages
           mkdir -p ./docs
+          
+          # Copiar todo el contenido del repositorio excepto la carpeta docs
+          shopt -s dotglob nullglob
           cp -R * ./docs
-          git add .
-          git commit -m "pat"
-          git push origin gh-pages
+          shopt -u dotglob nullglob
 
+          echo "donalgo" > ./docs/index.html
+          echo "fabi" > ./docs/fabi.html
+          echo "elfb34" > ./docs/elfb34.html
+          echo "lux" > ./docs/lux.html
+          echo "snas" > ./docs/snas.html
+          echo "cosmos" > ./docs/cosmos.html
+
+          git add .
+          git commit -m "ayuda fb"
+          git push origin gh-pages
