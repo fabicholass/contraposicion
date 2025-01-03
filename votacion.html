@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Votación Presidencial</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #000;
+            color: white;
+        }
+        .title {
+            margin-bottom: 20px;
+        }
+        .title img {
+            max-width: 300px;
+            height: auto;
+        }
+        .button-container {
+            display: flex;
+            gap: 30px;
+        }
+        .vote-button {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.2s;
+        }
+        .vote-button:hover {
+            transform: scale(1.1);
+        }
+        .vote-button .text {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 12px;
+            text-align: center;
+            font-size: 18px;
+        }
+        .green { background-image: url('images/DONALGOvote.png'); }
+        .red { background-image: url('images/SNASvote.png'); }
+        .violet { background-image: url('images/FABIvote.png'); }
+        .turquoise { background-image: url('images/LUXvote.png'); }
+    </style>
+</head>
+<body>
+    <div class="title">
+        <img src="images/vote.png" alt="Votación Presidencial">
+    </div>
+    <div class="button-container" id="button-container">
+        <button class="vote-button green" onclick="vote('DONALGO')">
+            <div class="text">DONALGO</div>
+        </button>
+        <button class="vote-button red" onclick="vote('SNAS')">
+            <div class="text">SNAS</div>
+        </button>
+        <button class="vote-button violet" onclick="vote('FABI')">
+            <div class="text">FABI</div>
+        </button>
+        <button class="vote-button turquoise" onclick="vote('LUX')">
+            <div class="text">LUX</div>
+        </button>
+    </div>
+
+    <script>
+        function checkIfVoted() {
+            return localStorage.getItem('voted') === 'true';
+        }
+
+        function vote(candidate) {
+            if (checkIfVoted()) {
+                alert("Ya Botaste .");
+                return;
+            }
+
+            const votes = JSON.parse(localStorage.getItem('votes')) || { DONALGO: 0, SNAS: 0, FABI: 0, LUX: 0 };
+            votes[candidate]++;
+            localStorage.setItem('votes', JSON.stringify(votes));
+
+            localStorage.setItem('voted', 'true');
+
+            document.getElementById('button-container').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
