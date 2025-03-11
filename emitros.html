@@ -1,0 +1,21 @@
+<html>
+    <style>
+        body {
+            background-color: greenyellow;
+            transition: background-color 0.3s;
+        }
+    </style>
+    <body onclick="cambiarFondoReproducirYFullscreen()">
+        <audio id="miAudio" src="audio/ternidos.mp3"></audio>
+        <script>
+            function cambiarFondoReproducirYFullscreen() {
+                document.body.style.backgroundColor = 'red';
+                document.getElementById("miAudio").play();
+
+                if (!document.fullscreenElement) {
+                    document.documentElement.requestFullscreen();
+                }
+            }
+        </script>
+    </body>
+</html>
